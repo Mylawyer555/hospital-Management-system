@@ -9,4 +9,4 @@ interface IDepartment{
 
 
 
-export default IDepartment
+export default IDepartment;

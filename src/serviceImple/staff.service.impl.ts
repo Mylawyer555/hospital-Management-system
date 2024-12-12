@@ -4,26 +4,51 @@ import IStaffs from "../interfaces/staffs.interface";
 import StaffServices  from "../services/Hospital.services";
 
 class StaffServiceImpl implements StaffServices{
-    addStaff(data: IStaffs): Promise<IStaffs> {
-        throw new Error("Method not implemented.");
+    staffs: IStaffs[] = [];
+    private nextId = 1;
+    async addStaff(data: IStaffs): Promise<IStaffs> {
+        const newStaff: IStaffs = { ...data, staff_id: this.nextId++ };
+        this.staffs.push(newStaff);
+        return newStaff;
+    };
+    async getStaffById(id: number): Promise<IStaffs> {
+        const staff = this.staffs.find((s) => s. staff_id === id);
+        if (!staff) {
+            throw new Error(`staff with ID ${id} not found`)
+        }
+        return staff;
     }
-    getStaffById(id: number): Promise<IStaffs | undefined> {
-        throw new Error("Method not implemented.");
+  
+    async getAllStaff(): Promise<IStaffs[]> {
+        return this.staffs;
     }
-    getAllStaff(): Promise<IStaffs[]> {
-        throw new Error("Method not implemented.");
+
+    async updateStaff(id: number, data: IStaffs): Promise<IStaffs> {
+        const index = this.staffs.findIndex((s) => s.staff_id === id);
+        if (index === -1) {
+            throw new Error(`staff with ID ${id} not found`)
+        }
+        this.staffs[index] = {...this.staffs[index],...data};
+        return this.staffs[index];
+        
+       
     }
-    updateStaff(id: number, data: IStaffs): Promise<IStaffs> {
-        throw new Error("Method not implemented.");
+   
+    async deleteStaff(id: number): Promise<void> {
+        const index = this.staffs.findIndex((s) => s.staff_id === id);
+        if (index === -1) {
+            throw new Error(`staff with ID ${id} not found`)
+        }
+        this.staffs.splice(index, 1);
+    
     }
-    deleteStaff(id: number): Promise<void> {
-        throw new Error("Method not implemented.");
+    async getStaffByRole(role: ROLE): Promise<IStaffs[]> {
+        
+        return this.staffs.filter((s) => s.role === role);
     }
-    getStaffByRole(role: ROLE): Promise<IStaffs[]> {
-        throw new Error("Method not implemented.");
-    }
-    getStaffBySpecilazation(spec: SPECIALIZATION): Promise<IStaffs[]> {
-        throw new Error("Method not implemented.");
+    async getStaffBySpecilazation(spec: SPECIALIZATION): Promise<IStaffs[]> {
+        
+        return this.staffs.filter((s) => s.specialization === spec);
     }
     
 }
