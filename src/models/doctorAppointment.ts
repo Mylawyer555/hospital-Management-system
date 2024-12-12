@@ -12,6 +12,10 @@ class Appointments{
         Your appointment with doctor ${this.staff_name} is scheduled by ${this.time} on ${this.date}
         `
     }
+
+    cancelAppointment(): string{
+        return `Your appointment with doctor ${this.staff_name} has been canceled on ${this.date} at ${this.time}`
+    }
 }
 //object 
 
